@@ -1,5 +1,5 @@
 import React from "react";
-import { Pagination, Row, Col } from "react-bootstrap";
+import {Col, Pagination, Row} from "react-bootstrap";
 
 const NavigationList = (props) => {
   return (

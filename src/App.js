@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from "react";
 import "./App.css";
-import { Container } from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import NavigationList from "./component/navigationList";
 import NewsList from "./component/newsList";
 

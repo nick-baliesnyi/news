@@ -1,5 +1,5 @@
 import Radium from "radium";
-import { fadeIn } from "react-animations";
+import {fadeIn} from "react-animations";
 
 const styles = {
     fadeIn: {

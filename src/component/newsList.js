@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
-import styles from "./animations";
-import { Card, Button } from "react-bootstrap";
-import { StyleRoot } from "radium";
+import React, {Fragment} from "react";
+import styles from "../animation/animations";
+import {Button, Card} from "react-bootstrap";
+import {StyleRoot} from "radium";
 
 const NewsList = (props) => {
   return (
