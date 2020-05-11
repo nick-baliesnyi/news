@@ -3,7 +3,7 @@ import { Navbar, Nav } from "react-bootstrap";
 
 const NavBar = (props) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" className="shadow-sm">
       <Navbar.Brand href="/">
           <img src='https://img.icons8.com/cute-clipart/64/000000/news.png' width="30px"/>
           Site name 

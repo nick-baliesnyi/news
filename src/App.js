@@ -1,11 +1,11 @@
-import React, { Component, Fragment, ReactDOM } from "react";
+import React, { Component, Fragment} from "react";
 import "./App.css";
 import { Container } from "react-bootstrap";
 import NavigationList from "./component/navigationList";
 import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
 import Graphic from "./component/graphic"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
   }
 
   fetch = (page) => {
@@ -44,6 +44,7 @@ class App extends Component {
 
   activeButton = (el) => {
     this.setState({ active: el });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   render() {
@@ -52,7 +53,7 @@ class App extends Component {
         <NavBar />
         <Container
           style={{ width: "800px" }}
-          className="shadow large mt-5 mb-5 pt-2 pb-3"
+          className=" mt-4 mb-5 pt-2 pb-3"
         >
           <Router>
             <Switch>
