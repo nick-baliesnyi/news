@@ -3,6 +3,9 @@ import "./App.css";
 import { Container } from "react-bootstrap";
 import NavigationList from "./component/navigationList";
 import NewsList from "./component/newsList";
+import NavBar from "./component/navBar";
+import Graphic from "./component/graphic"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -46,20 +49,28 @@ class App extends Component {
   render() {
     return (
       <Fragment>
+        <NavBar />
         <Container
           style={{ width: "800px" }}
           className="shadow large mt-5 mb-5 pt-2 pb-3"
         >
-          <NewsList
-            newsList={this.state.newsList}
-            fakeJson={this.state.fakeJson}
-          />
-          <NavigationList
-            pages={this.state.pages}
-            active={this.state.active}
-            fetch={this.fetch}
-            activeButton={this.activeButton}
-          />
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <NewsList
+                  newsList={this.state.newsList}
+                  fakeJson={this.state.fakeJson}
+                />
+                <NavigationList
+                  pages={this.state.pages}
+                  active={this.state.active}
+                  fetch={this.fetch}
+                  activeButton={this.activeButton}
+                />
+              </Route>
+              <Route exact path="/graphic" component={Graphic}/>
+            </Switch>
+          </Router>
         </Container>
       </Fragment>
     );
