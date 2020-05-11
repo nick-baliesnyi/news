@@ -1,6 +1,6 @@
-import React, {Component, Fragment, ReactDOM} from "react";
+import React, { Component, Fragment, ReactDOM } from "react";
 import "./App.css";
-import {Container} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import NavigationList from "./component/navigationList";
 import NewsList from "./component/newsList";
 
@@ -10,9 +10,14 @@ class App extends Component {
     this.state = {
       newsList: [],
       updateNewsList: [],
-      pages: [1, 2, 3],
+      pages: [1, 2, 3, 4, 6, 7, 8],
       active: 1,
-      fakeJson: {mood: "negative", proba: [0.5866836191571672, 0.15884564271098353, 0.25447073813184934], text: "\u044f \u0442\u0435\u0431\u044f \u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443"}
+      fakeJson: {
+        mood: "negative",
+        proba: [0.5866836191571672, 0.15884564271098353, 0.25447073813184934],
+        text:
+          "\u044f \u0442\u0435\u0431\u044f \u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443",
+      },
     };
   }
 
@@ -21,12 +26,12 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   fetch = (page) => {
     fetch(
-      `http://newsapi.org/v2/top-headlines?country=us&page=${page}&apiKey=845f0c59ff1645f19a21ee1f55afd9c1`
+      `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${page}&apiKey=845f0c59ff1645f19a21ee1f55afd9c1`
     )
       .then((value) => value.json())
       .then((value) => {
@@ -45,7 +50,10 @@ class App extends Component {
           style={{ width: "800px" }}
           className="shadow large mt-5 mb-5 pt-2 pb-3"
         >
-          <NewsList newsList={this.state.newsList} fakeJson={this.state.fakeJson} />
+          <NewsList
+            newsList={this.state.newsList}
+            fakeJson={this.state.fakeJson}
+          />
           <NavigationList
             pages={this.state.pages}
             active={this.state.active}

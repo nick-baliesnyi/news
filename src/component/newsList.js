@@ -13,13 +13,11 @@ const NewsList = (props) => {
               <Card.Img variant="top" src={el.urlToImage} />
               <Card.Body>
                 <Card.Title>{el.description}</Card.Title>
-                {el.author ? (
                   <Card.Text>
-                    Author: {el.author}
+                    {el.author ? `Author: ${el.author}` : 'Author: unknown'}
                     <br/>
                     Mood news: {props.fakeJson.mood}
                   </Card.Text>
-                ) : undefined}
                 <Card.Text>
                   Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
                 </Card.Text>

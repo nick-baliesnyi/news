@@ -5,7 +5,7 @@ const NavigationList = (props) => {
   return (
     <div className="mt-3">
       <Row>
-        <Col xl lg md sm={{ offset: 5 }}>
+        <Col xl lg md sm={{ offset: 4 }}>
           <Pagination>
             {props.pages.map((el) => (
               <Pagination.Item
