@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component, Fragment, ReactDOM} from "react";
 import "./App.css";
 import {Container} from "react-bootstrap";
 import NavigationList from "./component/navigationList";
@@ -12,11 +12,16 @@ class App extends Component {
       updateNewsList: [],
       pages: [1, 2, 3],
       active: 1,
+      fakeJson: {mood: "negative", proba: [0.5866836191571672, 0.15884564271098353, 0.25447073813184934], text: "\u044f \u0442\u0435\u0431\u044f \u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443"}
     };
   }
 
   componentDidMount() {
-    this.fetch(1);
+    this.fetch(this.state.active);
+  }
+
+  componentDidUpdate() {
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   fetch = (page) => {
@@ -40,7 +45,7 @@ class App extends Component {
           style={{ width: "800px" }}
           className="shadow large mt-5 mb-5 pt-2 pb-3"
         >
-          <NewsList newsList={this.state.newsList} />
+          <NewsList newsList={this.state.newsList} fakeJson={this.state.fakeJson} />
           <NavigationList
             pages={this.state.pages}
             active={this.state.active}

@@ -14,7 +14,11 @@ const NewsList = (props) => {
               <Card.Body>
                 <Card.Title>{el.description}</Card.Title>
                 {el.author ? (
-                  <Card.Text>Author: {el.author}</Card.Text>
+                  <Card.Text>
+                    Author: {el.author}
+                    <br/>
+                    Mood news: {props.fakeJson.mood}
+                  </Card.Text>
                 ) : undefined}
                 <Card.Text>
                   Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
