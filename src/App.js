@@ -1,11 +1,12 @@
-import React, { Component, Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import "./App.css";
 import { Container } from "react-bootstrap";
 import NavigationList from "./component/navigationList";
 import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
-import Graphic from "./component/graphic"
+import Graphic from "./component/graphic";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+;
 
 class App extends Component {
   constructor(props) {
@@ -13,14 +14,9 @@ class App extends Component {
     this.state = {
       newsList: [],
       updateNewsList: [],
-      pages: [1, 2, 3, 4, 6, 7, 8],
+      pages: [1, 2, 3, 4, 5, 6, 7, 8],
       active: 1,
-      fakeJson: {
-        mood: "negative",
-        proba: [0.5866836191571672, 0.15884564271098353, 0.25447073813184934],
-        text:
-          "\u044f \u0442\u0435\u0431\u044f \u043d\u0435\u043d\u0430\u0432\u0438\u0436\u0443",
-      },
+      moodNews: [],
     };
   }
 
@@ -51,16 +47,12 @@ class App extends Component {
     return (
       <Fragment>
         <NavBar />
-        <Container
-          style={{ width: "800px" }}
-          className=" mt-4 mb-5 pt-2 pb-3"
-        >
+        <Container style={{ width: "800px" }} className=" mt-4 mb-5 pt-2 pb-3">
           <Router>
             <Switch>
               <Route exact path="/">
-                <NewsList
+                <NewsList 
                   newsList={this.state.newsList}
-                  fakeJson={this.state.fakeJson}
                 />
                 <NavigationList
                   pages={this.state.pages}
@@ -69,7 +61,7 @@ class App extends Component {
                   activeButton={this.activeButton}
                 />
               </Route>
-              <Route exact path="/graphic" component={Graphic}/>
+              <Route exact path="/graphic" component={Graphic} />
             </Switch>
           </Router>
         </Container>
