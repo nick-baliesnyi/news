@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import styles from "../animation/animations";
 import { Button, Card } from "react-bootstrap";
 import { StyleRoot } from "radium";
+import MoodNews from "./moodNews";
 
 const NewsList = (props) => {
   return (
@@ -16,10 +17,7 @@ const NewsList = (props) => {
                 <Card.Text>
                   {el.author ? `Author: ${el.author}` : "Author: unknown"}
                   <br />
-                  Mood news:
-                  <strong>
-                    {props.mood.mood === "neg" ? "negative" : "positive"}
-                  </strong>
+                  <MoodNews/>
                 </Card.Text>
                 <Card.Text>
                   Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
