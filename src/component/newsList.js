@@ -1,8 +1,7 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import styles from "../animation/animations";
-import {Button, Card} from "react-bootstrap";
-import {StyleRoot} from "radium";
-import MoodNews from "./moodNews";
+import { Button, Card } from "react-bootstrap";
+import { StyleRoot } from "radium";
 
 const NewsList = (props) => {
   return (
@@ -14,11 +13,14 @@ const NewsList = (props) => {
               <Card.Img variant="top" src={el.urlToImage} />
               <Card.Body>
                 <Card.Title>{el.description}</Card.Title>
-                  <Card.Text>
-                    {el.author ? `Author: ${el.author}` : 'Author: unknown'}
-                    <br/>
-                    <MoodNews text={el.description}/>
-                  </Card.Text>
+                <Card.Text>
+                  {el.author ? `Author: ${el.author}` : "Author: unknown"}
+                  <br />
+                  Mood news:
+                  <strong>
+                    {props.mood.mood === "neg" ? "negative" : "positive"}
+                  </strong>
+                </Card.Text>
                 <Card.Text>
                   Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
                 </Card.Text>

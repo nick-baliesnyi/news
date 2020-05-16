@@ -6,14 +6,11 @@ import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
 import Graphic from "./component/graphic";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-;
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newsList: [],
-      updateNewsList: [],
       pages: [1, 2, 3, 4, 5, 6, 7, 8],
       active: 1,
       moodNews: [],
@@ -25,7 +22,17 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-
+    if (this.state.moodNews <= 0) {
+      this.state.newsList.map((el) =>
+        fetch(`http://angry.pythonanywhere.com/?text=${el.description}`)
+          .then((value) => value.json())
+          .then((value) => {
+            let updMood = this.state.moodNews;
+            updMood.push(value);
+            this.setState({ moodNews: updMood });
+          })
+      );
+    }
   }
 
   fetch = (page) => {
@@ -51,9 +58,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/">
-                <NewsList 
-                  newsList={this.state.newsList}
-                />
+                {this.state.moodNews.map((el) => (<NewsList key={el.text} newsList={this.state.newsList} mood={el} />))}
                 <NavigationList
                   pages={this.state.pages}
                   active={this.state.active}
