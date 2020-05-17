@@ -10,22 +10,27 @@ export default class MoodNews extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(`http://angry.pythonanywhere.com/?text=${this.props}`)
+  async componentDidMount() {
+     await fetch(`http://angry.pythonanywhere.com/?text=${this.props}`)
       .then((value) => value.json())
       .then((value) => {
         this.setState({ moodNews: value });
       });
+
+      this.props.addMood(this.state.moodNews.mood)
+
+      
   }
+
 
   render() {
     return (
       <Fragment>
         Mood News:{" "}
         {this.state.moodNews.mood === "neg" ? (
-          <span class="badge badge-danger">negative</span>
+          <span className="badge badge-danger">negative</span>
         ) : (
-          <span class="badge badge-success">negative</span>
+          <span className="badge badge-success">positive</span>
         )}
       </Fragment>
     );

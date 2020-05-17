@@ -6,8 +6,7 @@ import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
 import Graphic from "./component/graphic";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-
+import NewsCounter from "./component/newsCounter";
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +15,9 @@ class App extends Component {
       newsList: [],
       pages: [1, 2, 3, 4, 5, 6, 7, 8],
       active: 1,
+      positive: 0,
+      negative: 0,
+      mood: "neg",
     };
   }
 
@@ -34,8 +36,21 @@ class App extends Component {
   };
 
   activeButton = (el) => {
-    this.setState({ active: el });
+    this.setState({ active: el, positive: 0, negative: 0 });
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  addMood = (mood) => {
+    console.log(mood);
+    if (mood === "neg") {
+      let updNeg = this.state.negative;
+      updNeg++;
+      this.setState({ negative: updNeg });
+    } else {
+      let updPos = this.state.positive;
+      updPos++;
+      this.setState({ positive: updPos });
+    }
   };
 
   render() {
@@ -46,7 +61,14 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/">
-                <NewsList newsList={this.state.newsList} />
+                <NewsCounter
+                  negative={this.state.negative}
+                  positive={this.state.positive}
+                />
+                <NewsList
+                  newsList={this.state.newsList}
+                  addMood={this.addMood}
+                />
                 <NavigationList
                   pages={this.state.pages}
                   active={this.state.active}

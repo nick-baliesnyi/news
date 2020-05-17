@@ -17,7 +17,7 @@ const NewsList = (props) => {
                 <Card.Text>
                   {el.author ? `Author: ${el.author}` : "Author: unknown"}
                   <br />
-                  <MoodNews/>
+                  <MoodNews addMood={props.addMood}/>
                 </Card.Text>
                 <Card.Text>
                   Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
