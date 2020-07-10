@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
 import "./App.css";
 import { Container } from "react-bootstrap";
-import NavigationList from "./component/navigationList";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
 import Graphic from "./component/graphic";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NewsCounter from "./component/newsCounter";
 
 class App extends Component {
@@ -13,26 +13,46 @@ class App extends Component {
     super(props);
     this.state = {
       newsList: [],
-      pages: [1, 2, 3, 4, 5, 6, 7, 8],
       active: 1,
       positive: 0,
       negative: 0,
       mood: "neg",
+      hasMore: true
     };
   }
 
   componentDidMount() {
-    this.fetch(this.state.active);
+    this.fetch()
+    //window.addEventListener('scroll', this.onScroll);
+
+    fetch("https://viknubackend.pythonanywhere.com/stats/1")
+      .then((value) => value.json())
+      .then((value) => {
+        console.log(value);
+      });
   }
 
-  fetch = (page) => {
+  fetch = (props) => {
+
+    if(this.state.newsList.length >= 35) {
+      this.setState({hasMore: false})
+      return
+    }
     fetch(
-      `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${page}&apiKey=845f0c59ff1645f19a21ee1f55afd9c1`
+      `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${props}&apiKey=845f0c59ff1645f19a21ee1f55afd9c1`
     )
       .then((value) => value.json())
       .then((value) => {
-        this.setState({ newsList: value.articles });
+        console.log(value)
+        const newArr = this.state.newsList
+        value.articles.forEach(el => {
+          newArr.push(el)
+        })
+
+        this.setState({newsList: newArr})
       });
+      this.setState({active: this.state.active + 1})
+      console.log(this.state.active)
   };
 
   activeButton = (el) => {
@@ -57,29 +77,38 @@ class App extends Component {
     return (
       <Fragment>
         <NavBar />
-        <Container style={{ width: "800px" }} className=" mt-4 mb-5 pt-2 pb-3">
-          <Router>
-            <Switch>
-              <Route exact path="/">
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Container
+                style={{ width: "800px", overflow: "auto" }}
+                className=" mt-4 mb-5 pt-2 pb-3 shadow-sm"
+              >
                 <NewsCounter
                   negative={this.state.negative}
                   positive={this.state.positive}
                 />
-                <NewsList
-                  newsList={this.state.newsList}
-                  addMood={this.addMood}
-                />
-                <NavigationList
-                  pages={this.state.pages}
-                  active={this.state.active}
-                  fetch={this.fetch}
-                  activeButton={this.activeButton}
-                />
-              </Route>
-              <Route exact path="/graphic" component={Graphic} />
-            </Switch>
-          </Router>
-        </Container>
+                <InfiniteScroll
+                  dataLength={this.state.newsList.length}
+                  next={() => this.fetch(this.state.active)}
+                  hasMore={this.state.hasMore}
+                  loader={<h4>Loading...</h4>}
+                  endMessage={
+                    <p style={{textAlign: 'center'}}>
+                      <b>The end</b>
+                    </p>
+                  }
+                >
+                  <NewsList
+                    newsList={this.state.newsList}
+                    addMood={this.addMood}
+                  />
+                </InfiniteScroll>
+              </Container>
+            </Route>
+            <Route exact path="/graphic" component={Graphic} />
+          </Switch>
+        </Router>
       </Fragment>
     );
   }
