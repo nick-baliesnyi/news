@@ -6,31 +6,34 @@ import MoodNews from "./moodNews";
 
 const NewsList = (props) => {
   return (
-    <Fragment>
-      {props.newsList.map((el) => (
-        <StyleRoot key={el.description}>
-          <div style={styles.fadeIn}>
-            <Card style={{ width: "100%" }} className="mt-2">
-              <Card.Img variant="top" src={el.urlToImage} />
-              <Card.Body>
-                <Card.Title>{el.description}</Card.Title>
-                <Card.Text>
-                  {el.author ? `Author: ${el.author}` : "Author: unknown"}
-                  <br />
-                  <MoodNews addMood={props.addMood}/>
-                </Card.Text>
-                <Card.Text>
-                  Publication date: {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
-                </Card.Text>
-                <Button variant="light" href={el.url} className="shadow-sm">
-                  More details
-                </Button>
-              </Card.Body>
-            </Card>
-          </div>
-        </StyleRoot>
-      ))}
-    </Fragment>
+    <div>
+      {props.newsList.length <= 0
+        ? ""
+        : props.newsList.map((el) => (
+            <StyleRoot key={el.description}>
+              <div style={styles.fadeIn}>
+                <Card style={{ width: "100%" }} className="mt-2">
+                  <Card.Img variant="top" src={el.urlToImage} />
+                  <Card.Body>
+                    <Card.Title>{el.description}</Card.Title>
+                    <Card.Text>
+                      {el.author ? `Author: ${el.author}` : "Author: unknown"}
+                      <br />
+                      <MoodNews addMood={props.addMood} text={el.description} />
+                    </Card.Text>
+                    <Card.Text>
+                      Publication date:{" "}
+                      {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
+                    </Card.Text>
+                    <Button variant="light" href={el.url} className="shadow-sm">
+                      More details
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </div>
+            </StyleRoot>
+          ))}
+    </div>
   );
 };
 

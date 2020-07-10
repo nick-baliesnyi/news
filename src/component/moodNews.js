@@ -11,7 +11,7 @@ export default class MoodNews extends Component {
   }
 
   async componentDidMount() {
-     await fetch(`http://angry.pythonanywhere.com/?text=${this.props}`)
+     await fetch(`http://angry.pythonanywhere.com/?text=${this.props.text}`)
       .then((value) => value.json())
       .then((value) => {
         this.setState({ moodNews: value });
