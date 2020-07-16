@@ -1,40 +1,96 @@
-import React, { Fragment } from "react";
-import styles from "../animation/animations";
-import { Button, Card } from "react-bootstrap";
-import { StyleRoot } from "radium";
-import MoodNews from "./moodNews";
+import React, { useState, useEffect } from 'react'
+import styles from '../animation/animations'
+import { Button, Card } from 'react-bootstrap'
+import { StyleRoot } from 'radium'
+import MoodNews from './moodNews'
+import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import mockEvents from '../mock/events.json'
+
+const getDateString = (secTimestamp) => {
+  const timestamp = secTimestamp * 1000
+  const lowerCaseString = new Date(timestamp).toLocaleDateString('uk', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  return lowerCaseString[0].toUpperCase() + lowerCaseString.slice(1)
+}
 
 const NewsList = (props) => {
-  return (
-    <div>
-      {props.newsList.length <= 0
-        ? ""
-        : props.newsList.map((el) => (
-            <StyleRoot key={el.description}>
-              <div style={styles.fadeIn}>
-                <Card style={{ width: "100%" }} className="mt-2">
-                  <Card.Img variant="top" src={el.urlToImage} />
-                  <Card.Body>
-                    <Card.Title>{el.description}</Card.Title>
-                    <Card.Text>
-                      {el.author ? `Author: ${el.author}` : "Author: unknown"}
-                      <br />
-                      <MoodNews addMood={props.addMood} text={el.description} />
-                    </Card.Text>
-                    <Card.Text>
-                      Publication date:{" "}
-                      {el.publishedAt.replace(/[a-zA-Z]/g, " ")}
-                    </Card.Text>
-                    <Button variant="light" href={el.url} className="shadow-sm">
-                      More details
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            </StyleRoot>
-          ))}
-    </div>
-  );
-};
+  const [newsList, setNewsList] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [errorLoadingNews, setErrorLoadingNews] = useState(false)
+  const [page, setPage] = useState(1)
 
-export default NewsList;
+  useEffect(() => {
+    fetchNews()
+  }, [])
+
+  function fetchNews() {
+    console.log('fetching news page:', page)
+    setLoading(true)
+    // // TODO: uncomment when backend is updated
+    // return axios
+    //   .get('/events/1')
+    //   .then((res) => {
+    //     page++
+    //     return res.data.events
+    //   })
+    //   .catch((err) => {
+    //     console.error(err)
+    //     return []
+    //   })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(mockEvents.events)
+      }, 1000)
+    })
+      .then((newNews) => {
+        setNewsList(newsList.concat(newNews))
+        setPage(page + 1)
+      })
+      .catch((err) => setErrorLoadingNews(true))
+      .finally(() => setLoading(false))
+  }
+
+  return (
+    <InfiniteScroll
+      dataLength={newsList.length}
+      next={() => fetchNews()}
+      hasMore={true}
+      loader={<h5>Завантажуємо...</h5>}
+      endMessage={
+        <p style={{ textAlign: 'center' }}>
+          <b>Це всі новини, що є.</b>
+        </p>
+      }
+    >
+      {newsList.map((el) => (
+        <StyleRoot key={el.id}>
+          <div style={styles.fadeIn}>
+            <Card style={{ width: '100%' }} className='mt-2'>
+              <Card.Body>
+                <Card.Title>
+                  <a href={el.link}>{el.title}</a>
+                </Card.Title>
+                <Card.Text>
+                  <MoodNews addMood={props.addMood} text={el.text} />
+                </Card.Text>
+                <Card.Text>
+                  <small>
+                    {el.author ? el.author : 'unknown'} |{' '}
+                    {getDateString(el.date_published)}
+                  </small>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </div>
+        </StyleRoot>
+      ))}
+    </InfiniteScroll>
+  )
+}
+
+export default NewsList
