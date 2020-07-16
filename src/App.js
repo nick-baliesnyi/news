@@ -12,11 +12,6 @@ class App extends Component {
     super(props)
     this.state = {
       authenticated: false,
-      active: 1,
-      positive: 0,
-      negative: 0,
-      mood: 'neg',
-      hasMore: true,
     }
   }
 
