@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NewsList from "./component/newsList";
 import NavBar from "./component/navBar";
 import Graphic from "./component/graphic";
+import LoginPage from "./component/LoginPage";
 import NewsCounter from "./component/newsCounter";
 
 class App extends Component {
@@ -107,6 +108,7 @@ class App extends Component {
               </Container>
             </Route>
             <Route exact path="/graphic" component={Graphic} />
+            <Route exact path="/login" component={LoginPage} />
           </Switch>
         </Router>
       </Fragment>
