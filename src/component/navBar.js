@@ -13,6 +13,7 @@ const NavBar = (props) => {
         <Nav className="mr-auto">
           <Nav.Link href="/">News</Nav.Link>
           <Nav.Link href="/graphic">Graphic</Nav.Link>
+          <Nav.Link href="/login">Login</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
