@@ -40,6 +40,10 @@ class LoginPage extends React.Component {
         userService.login(username, password)
             .then(
                 user => {
+                    console.log(user)
+                    if (user) {
+                        this.props.auth()
+                    }
                     window.alert("OK");
                     //const { from } = this.props.location.state || { from: { pathname: "/" } };
                     //this.props.history.push(from);
@@ -52,7 +56,7 @@ class LoginPage extends React.Component {
     render() {
         const { username, password, submitted, loading, error } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3" style={{margin: "0 auto"}}>
+            <div className="col-md-6 col-md-offset-3 mt-5" style={{margin: "0 auto"}}>
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
