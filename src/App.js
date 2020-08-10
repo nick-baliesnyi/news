@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import './App.css'
 import { Container } from 'react-bootstrap'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import NewsList from './component/newsList'
-import NavBar from './component/navBar'
-import Graphic from './component/graphic'
-import NewsCounter from './component/newsCounter'
-import Login from './component/login'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom'
+import NewsList from './components/newsList'
+import NavBar from './components/navBar'
+import Graphic from './components/graphic'
+import Login from './pages/login'
 
 class App extends Component {
   constructor(props) {
@@ -21,27 +25,73 @@ class App extends Component {
     }
   }
 
+  setAuthenticated() {
+    this.setState({ authenticated: true })
+  }
+
   render() {
     return (
       <Fragment>
         <NavBar />
         <Router>
           <Switch>
-            <Route exact path='/'>
-              <Container
-                style={{ width: '800px', overflow: 'auto' }}
-                className=' mt-4 mb-5 pt-2 pb-3 shadow-sm'
-              >
-                <NewsList />
-              </Container>
-            </Route>
-            <Route exact path='/graphic' component={Graphic} />
-            <Route path='/login' component={Login} />
+            <PrivateRoute
+              authenticated={this.state.authenticated}
+              exact
+              path='/'
+              render={(props) => (
+                <Container
+                  style={{ width: '800px', overflow: 'auto' }}
+                  className=' mt-4 mb-5 pt-2 pb-3 shadow-sm'
+                >
+                  <NewsList />
+                </Container>
+              )}
+            ></PrivateRoute>
+
+            <PrivateRoute
+              authenticated={this.state.authenticated}
+              exact
+              path='/graphic'
+              component={Graphic}
+            />
+
+            <Route
+              path='/login'
+              render={(props) => (
+                <Login
+                  {...props}
+                  setAuthenticated={this.setAuthenticated.bind(this)}
+                />
+              )}
+            />
           </Switch>
         </Router>
       </Fragment>
     )
   }
 }
+
+const PrivateRoute = ({
+  render: Component,
+  authenticated,
+  path,
+  ...rest
+}) => (
+  <Route
+    {...rest}
+    render={(props) => {
+      const location = {
+        pathname: '/login',
+        state: { from: path },
+      }
+      return authenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={location} />
+      )
+    }}
+  />
+)
 
 export default App

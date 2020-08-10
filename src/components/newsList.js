@@ -3,9 +3,9 @@ import styles from '../animation/animations'
 import { Button, Card } from 'react-bootstrap'
 import { StyleRoot } from 'radium'
 import MoodNews from './moodNews'
-import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import mockEvents from '../mock/events.json'
+import { newsService } from '../services/news'
 
 const getDateString = (secTimestamp) => {
   const timestamp = secTimestamp * 1000
@@ -30,6 +30,13 @@ const NewsList = (props) => {
 
   function fetchNews() {
     console.log('fetching news page:', page)
+    newsService.fetch()
+      .then(data => {
+        console.log('data', data)
+      })
+      .catch(err => {
+        console.log('err', err)
+      })
     setLoading(true)
     // // TODO: uncomment when backend is updated
     // return axios
