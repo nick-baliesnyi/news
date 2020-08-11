@@ -9,7 +9,7 @@ function LoginPage(props) {
       style={{ width: '800px', overflow: 'auto' }}
       className='mt-4 mb-5 pt-2 pb-3 shadow-sm'
     >
-      {/* <NewsCounter /> */}
+      <NewsCounter />
       <NewsList />
     </Container>
   )

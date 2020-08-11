@@ -12,7 +12,7 @@ function login(username, password) {
 }
 
 function logout() {
-  localStorage.removeItem('user')
+  return axios.get('/logout/')
 }
 
 function checkAuth() {

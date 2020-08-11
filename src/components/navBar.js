@@ -1,15 +1,30 @@
 import React from 'react'
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { Link, withRouter } from 'react-router-dom'
+import userService from '../services/user'
 
 const NavBar = (props) => {
+  function logout() {
+    userService
+      .logout()
+      .catch((err) => {
+        console.warn('Error:', err)
+      })
+      .finally((res) => {
+        props.history.push('/login')
+      })
+  }
+
   return (
     <Navbar bg='light' className='shadow-sm'>
-      <Link to='' style={{
-        color: '#333',
-        fontSize: '1.25rem',
-        textDecoration: 'none',
-      }}>
+      <Link
+        to=''
+        style={{
+          color: '#333',
+          fontSize: '1.25rem',
+          textDecoration: 'none',
+        }}
+      >
         <img
           src='https://img.icons8.com/cute-clipart/64/000000/news.png'
           width='30px'
@@ -40,6 +55,9 @@ const NavBar = (props) => {
             Статистика
           </Link>
         </Nav>
+        <Button variant='link' onClick={logout}>
+          Вийти
+        </Button>
       </Navbar.Collapse>
     </Navbar>
   )

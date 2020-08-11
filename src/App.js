@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom'
 import NavBar from './components/navBar'
-import Graphic from './components/graphic'
+import Stats from './pages/stats'
 import Login from './pages/login'
 import NewsFeed from './pages/news-feed'
 import userService from './services/user'
@@ -54,7 +54,7 @@ class App extends Component {
               authenticated={this.state.authenticated}
               exact
               path='/stats'
-              render={(props) => <Graphic {...props} />}
+              render={(props) => <Stats {...props} />}
             />
 
             <Route
@@ -74,14 +74,6 @@ class App extends Component {
 }
 
 const PrivateRoute = ({ render: Component, authenticated, path, ...rest }) => {
-  // const [authenticated, setAuthenticated] = useState(null)
-
-  // useEffect(() => {
-  //   userService
-  //     .checkAuth()
-  //     .then((isAuthenticated) => setAuthenticated(isAuthenticated))
-  // })
-
   return (
     <Route
       {...rest}
