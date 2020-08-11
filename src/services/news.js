@@ -1,15 +1,26 @@
 import axios from 'axios'
 
-const API = process.env.REACT_APP_BACKEND_BASE_URL
-
-export const newsService = {
-  fetch
+const newsService = {
+  getNewsBatch,
+  getStats
 }
 
-function fetch(page) {
-  return axios.get(`${API}/statsAll/`, { withCredentials: true })
+function getNewsBatch(page) {
+  return axios.get(`/events/${page}`)
     .then((res) => {
-      console.log(res.data)
-      return res.data
+      return res.data.events
     })
 }
+
+function getStats() {
+  return axios.get(`/statsAll`)
+    .then(res => {
+      return res.data
+    })
+    .catch(err => {
+      console.warn('Error getting stats:', err)
+      return {}
+    })
+}
+
+export default newsService

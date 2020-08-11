@@ -1,22 +1,14 @@
 import axios from 'axios'
 
-const API = process.env.REACT_APP_BACKEND_BASE_URL
-
-export const userService = {
-  login,
-  logout,
-}
-
 function login(username, password) {
   var formData = new FormData()
   formData.append('username', username)
   formData.append('password', password)
 
-  return axios.post(`${API}/auth/`, formData)
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
+  return axios.post(`/auth/`, formData).then((res) => {
+    console.log(res.data)
+    return res.data
+  })
 }
 
 function logout() {
@@ -24,5 +16,17 @@ function logout() {
 }
 
 function checkAuth() {
-  // return axios.get()
+  return axios
+    .get('/events/1')
+    .then((res) => {
+      return true
+    })
+    .catch((err) => {
+      console.log('Error checking auth:', err)
+      return false
+    })
 }
+
+const userService = { login, logout, checkAuth }
+
+export default userService

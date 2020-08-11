@@ -4,8 +4,9 @@ import { Button, Card } from 'react-bootstrap'
 import { StyleRoot } from 'radium'
 import MoodNews from './moodNews'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import mockEvents from '../mock/events.json'
-import { newsService } from '../services/news'
+import newsService from '../services/news'
+import Skeleton from 'react-loading-skeleton'
+import Loader from '../components/loader'
 
 const getDateString = (secTimestamp) => {
   const timestamp = secTimestamp * 1000
@@ -30,72 +31,80 @@ const NewsList = (props) => {
 
   function fetchNews() {
     console.log('fetching news page:', page)
-    newsService.fetch()
-      .then(data => {
-        console.log('data', data)
-      })
-      .catch(err => {
-        console.log('err', err)
-      })
     setLoading(true)
-    // // TODO: uncomment when backend is updated
-    // return axios
-    //   .get('/events/1')
-    //   .then((res) => {
-    //     page++
-    //     return res.data.events
-    //   })
-    //   .catch((err) => {
-    //     console.error(err)
-    //     return []
-    //   })
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(mockEvents.events)
-      }, 1000)
-    })
+    return newsService
+      .getNewsBatch(page)
       .then((newNews) => {
+        console.log(`Got news from page ${page}:`, newNews)
         setNewsList(newsList.concat(newNews))
         setPage(page + 1)
       })
-      .catch((err) => setErrorLoadingNews(true))
+      .catch((err) => {
+        console.error(err)
+        setErrorLoadingNews(true)
+        return []
+      })
       .finally(() => setLoading(false))
   }
 
   return (
     <InfiniteScroll
       dataLength={newsList.length}
-      next={() => fetchNews()}
+      next={fetchNews}
       hasMore={true}
-      loader={<h5>Завантажуємо...</h5>}
+      loader={<Loader />}
       endMessage={
         <p style={{ textAlign: 'center' }}>
           <b>Це всі новини, що є.</b>
         </p>
       }
     >
-      {newsList.map((el) => (
-        <StyleRoot key={el.id}>
-          <div style={styles.fadeIn}>
-            <Card style={{ width: '100%' }} className='mt-2'>
-              <Card.Body>
-                <Card.Title>
-                  <a href={el.link}>{el.title}</a>
-                </Card.Title>
-                <Card.Text>
-                  <MoodNews addMood={props.addMood} text={el.text} />
-                </Card.Text>
-                <Card.Text>
-                  <small>
-                    {el.author ? el.author : 'unknown'} |{' '}
-                    {getDateString(el.date_published)}
-                  </small>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </div>
-        </StyleRoot>
-      ))}
+      {newsList.length > 0 &&
+        newsList.map((el) => (
+          <StyleRoot key={el.id}>
+            <div style={styles.fadeIn}>
+              <Card style={{ width: '100%' }} className='mt-2'>
+                <Card.Body>
+                  <Card.Title>
+                    <a href={el.link}>{el.title}</a>
+                  </Card.Title>
+                  <Card.Text>
+                    <MoodNews mood={(el.analyze_id[0] || {}).mood} />
+                  </Card.Text>
+                  <Card.Text>
+                    <small>
+                      {el.author ? el.author : 'Невідоме джерело'} |{' '}
+                      {getDateString(el.date_published)}
+                    </small>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
+          </StyleRoot>
+        ))}
+
+      {!newsList.length &&
+        [...Array(5).keys()].map((el) => (
+          <StyleRoot key={el}>
+            <div style={styles.fadeIn}>
+              <Card style={{ width: '100%' }} className='mt-2'>
+                <Card.Body>
+                  <Card.Title>
+                    <Skeleton />
+                  </Card.Title>
+                  <Card.Text>
+                    <Skeleton width={80} />
+                  </Card.Text>
+                  <Card.Text>
+                    <small>
+                      <Skeleton width={200} />
+                    </small>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
+          </StyleRoot>
+        ))}
     </InfiniteScroll>
   )
 }

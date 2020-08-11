@@ -1,22 +1,48 @@
-import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import React from 'react'
+import { Navbar, Nav } from 'react-bootstrap'
+import { Link, withRouter } from 'react-router-dom'
 
 const NavBar = (props) => {
   return (
-    <Navbar bg="light" className="shadow-sm">
-      <Navbar.Brand href="/">
-          <img src='https://img.icons8.com/cute-clipart/64/000000/news.png' width="30px"/>
-          Парсер ВІКНУ 
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="/">Стрічка новин</Nav.Link>
-          <Nav.Link href="/graphic">Статистика</Nav.Link>
+    <Navbar bg='light' className='shadow-sm'>
+      <Link to='' style={{
+        color: '#333',
+        fontSize: '1.25rem',
+        textDecoration: 'none',
+      }}>
+        <img
+          src='https://img.icons8.com/cute-clipart/64/000000/news.png'
+          width='30px'
+        />
+        Парсер ВІКНУ
+      </Link>
+      <Navbar.Toggle aria-controls='basic-navbar-nav' />
+      <Navbar.Collapse id='basic-navbar-nav'>
+        <Nav className='mr-auto'>
+          <Link
+            to='/'
+            style={{
+              color: 'rgba(0,0,0,.5)',
+              textDecoration: 'none',
+              padding: '.5rem',
+            }}
+          >
+            Стрічка новин
+          </Link>
+          <Link
+            to='/stats'
+            style={{
+              color: 'rgba(0,0,0,.5)',
+              textDecoration: 'none',
+              padding: '.5rem',
+            }}
+          >
+            Статистика
+          </Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default withRouter(NavBar)
