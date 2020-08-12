@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useState } from 'react'
+import React, { Component, Fragment } from 'react'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -26,11 +26,10 @@ class App extends Component {
     }
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const authenticated = await userService.checkAuth()
     this.setState({ authenticated })
   }
-
   onSuccessfulLogin(authenticated) {
     this.setState({ authenticated: true })
   }

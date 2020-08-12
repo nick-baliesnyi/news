@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../animation/animations'
-import { Button, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { StyleRoot } from 'radium'
 import MoodNews from './moodNews'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import newsService from '../services/news'
 import Skeleton from 'react-loading-skeleton'
-import Loader from '../components/loader'
 
 const getDateString = (secTimestamp) => {
   const timestamp = secTimestamp * 1000
@@ -27,6 +26,7 @@ const NewsList = (props) => {
 
   useEffect(() => {
     fetchNews()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function fetchNews() {
@@ -38,6 +38,7 @@ const NewsList = (props) => {
         console.log(`Got news from page ${page}:`, newNews)
         setNewsList(newsList.concat(newNews))
         setPage(page + 1)
+        setErrorLoadingNews(false)
       })
       .catch((err) => {
         console.error(err)
@@ -52,13 +53,17 @@ const NewsList = (props) => {
       dataLength={newsList.length}
       next={fetchNews}
       hasMore={true}
-      loader={<Loader />}
       endMessage={
         <p style={{ textAlign: 'center' }}>
           <b>Це всі новини, що є.</b>
         </p>
       }
     >
+      {errorLoadingNews && (
+        <p style={{ textAlign: 'center' }}>
+          <b>Помилка при завантаженні новин</b>
+        </p>
+      )}
       {newsList.length > 0 &&
         newsList.map((el) => (
           <StyleRoot key={el.id}>
@@ -83,7 +88,7 @@ const NewsList = (props) => {
           </StyleRoot>
         ))}
 
-      {!newsList.length &&
+      {loading &&
         [...Array(5).keys()].map((el) => (
           <StyleRoot key={el}>
             <div style={styles.fadeIn}>

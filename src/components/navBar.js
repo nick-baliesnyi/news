@@ -26,6 +26,7 @@ const NavBar = (props) => {
         }}
       >
         <img
+          alt="Logo"
           src='https://img.icons8.com/cute-clipart/64/000000/news.png'
           width='30px'
         />

@@ -1,27 +1,20 @@
-import React, { useState, memo } from 'react'
-import {
-  LineChart,
-  XAxis,
-  Tooltip,
-  Line,
-  CartesianGrid,
-  YAxis,
-} from 'recharts'
+import React, { memo } from 'react'
+import { LineChart, XAxis, Tooltip, Line, CartesianGrid, YAxis } from 'recharts'
 
-const Chart = memo((props) => {
-  const [data, setData] = useState([
-    { date: '01.05.20', good: 10, bad: 1 },
-    { date: '02.05.20', good: 10, bad: 7 },
-    { date: '03.05.20', good: 3, bad: 1 },
-    { date: '04.05.20', good: 5, bad: 8 },
-    { date: '05.05.20', good: 8, bad: 5 },
-    { date: '06.05.20', good: 11, bad: 3 },
-    { date: '07.05.20', good: 1, bad: 1 },
-    { date: '08.05.20', good: 7, bad: 4 },
-    { date: '09.05.20', good: 3, bad: 2 },
-    { date: '10.05.20', good: 10, bad: 13 },
-  ])
+const data = [
+  { date: '01.05.20', good: 10, bad: 1 },
+  { date: '02.05.20', good: 10, bad: 7 },
+  { date: '03.05.20', good: 3, bad: 1 },
+  { date: '04.05.20', good: 5, bad: 8 },
+  { date: '05.05.20', good: 8, bad: 5 },
+  { date: '06.05.20', good: 11, bad: 3 },
+  { date: '07.05.20', good: 1, bad: 1 },
+  { date: '08.05.20', good: 7, bad: 4 },
+  { date: '09.05.20', good: 3, bad: 2 },
+  { date: '10.05.20', good: 10, bad: 13 },
+]
 
+const Chart = memo(() => {
   return (
     <LineChart width={1100} height={700} data={data}>
       <CartesianGrid vertical={false} />
