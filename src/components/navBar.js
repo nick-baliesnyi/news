@@ -7,11 +7,11 @@ const NavBar = (props) => {
   function logout() {
     userService
       .logout()
+      .then(() => {
+        props.history.push('/login')
+      })
       .catch((err) => {
         console.warn('Error:', err)
-      })
-      .finally((res) => {
-        props.history.push('/login')
       })
   }
 

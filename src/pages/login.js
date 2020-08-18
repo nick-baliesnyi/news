@@ -5,8 +5,6 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props)
 
-    userService.logout()
-
     this.state = {
       username: '',
       password: '',
